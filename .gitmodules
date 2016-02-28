@@ -58,3 +58,6 @@
 [submodule "modules/stdmod"]
 	path = modules/stdmod
 	url = https://github.com/stdmod/stdmod
+[submodule "modules/pe_gem"]
+	path = modules/pe_gem
+	url = https://github.com/puppetlabs/puppetlabs-pe_gem
