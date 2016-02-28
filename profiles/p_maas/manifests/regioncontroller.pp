@@ -1,15 +1,17 @@
 class p_maas::regioncontroller (
   $regioncontroller_ip = $ipaddress,
   $dbhost="localhost",
-  $dbpassword,
+  $dbpasswordgen,
   $dbport=5432,
   $maas_ip=$ipaddress,
   $adminpassword,
   $is_primary=true
 ) {
+  $dbpassword=sha1("regioncontroller${$dbpasswordgen}${::master_password}")
+
   include p_maas
 
-  ensure_packages(["maas-dns","maas-region-controller-min"])
+  ensure_packages(["maas-dns","maas-region-controller-min"],{subscribe => Class["p_maas"]})
 
   include ::postgresql::server
   

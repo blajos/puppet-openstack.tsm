@@ -86,7 +86,7 @@ class p_puppetmaster (
 
   package { ['hiera-eyaml', 'deep_merge']:
     ensure   => present,
-    provider => pe_gem,
+    provider => gem,
   }
 
 #TODO: /var/lib/puppet mappa tartalmat karban kell tartani, pl

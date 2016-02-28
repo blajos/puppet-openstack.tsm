@@ -8,6 +8,7 @@ class p_maas::clustercontroller (
   File <<| title == "/root/install/maas-cluster-controller.preseed" |>> ~>
   package{"maas-cluster-controller":
     ensure => present,
+    subscribe => Class["p_maas"],
     responsefile => "/root/install/maas-cluster-controller.preseed"
   } ~>
   user{"maas":

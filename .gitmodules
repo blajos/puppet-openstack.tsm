@@ -61,3 +61,6 @@
 [submodule "modules/pe_gem"]
 	path = modules/pe_gem
 	url = https://github.com/puppetlabs/puppetlabs-pe_gem
+[submodule "modules/puppetserver_gem"]
+	path = modules/puppetserver_gem
+	url = https://github.com/puppetlabs/puppetlabs-puppetserver_gem

@@ -8,5 +8,5 @@ network::interfaces_hash:
   eth0:
     ipaddress: 172.31.16.12
     netmask: 255.255.255.0
-    gateway: 172.31.16.254
+    gateway: 172.31.16.1
 

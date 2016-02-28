@@ -4,5 +4,6 @@ class roles::puppetmaster {
   include p_firewall::server
 
   include p_puppetmaster
+  include p_puppetmaster::maas_client
 }
 
