@@ -1,0 +1,46 @@
+lvm::volume_groups:
+  os:
+    physical_volumes:
+      - /dev/vda5
+    logical_volumes:
+      root:
+        size: 2G
+        mountpath: /
+        fs_type: ext4
+        options: errors=remount-ro
+        pass: 1
+      home:
+        size: 2G
+        mountpath: /home
+        fs_type: ext4
+        pass: 2
+      usr:
+        size: 3G
+        mountpath: /usr
+        fs_type: ext4
+        pass: 2
+      var:
+        size: 12G
+        mountpath: /var
+        fs_type: ext4
+        pass: 2
+      var+log:
+        size: 3G
+        mountpath: /var/log
+        fs_type: ext4
+        pass: 2
+      var+log+audit:
+        size: 2G
+        mountpath: /var/log/audit
+        fs_type: ext4
+        pass: 2
+      tmp:
+        size: 1G
+        mountpath: /tmp
+        fs_type: ext4
+        pass: 2
+      swap_1:
+        size: 2G
+        fs_type: swap
+        createfs: false
+

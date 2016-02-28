@@ -1,0 +1,4 @@
+# Puppet hack
+puppetdb::globals::version: 2.3.8-1puppetlabs1
+puppetdb::postgres_version: "9.3"
+

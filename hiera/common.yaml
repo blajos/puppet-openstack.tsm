@@ -1,0 +1,93 @@
+# Set site and role
+role: common
+site: default_site
+
+
+# Security
+## SSH
+p_ssh::root_keys:
+  "boroczki.lajos@t-systems.hu":
+    key: AAAAB3NzaC1yc2EAAAABIwAAAQEAwgkfhvFSHWE/fZOlUG9WicSZgztJ4bN7dHHNsW5LddfLAGWKd/8Paa5owm3JiCuaK04G30IAz8F1/yjLHQK3V/N0NuaEeUQZ+oX6kZB0RFiIEWlvkhczG/DmOimb3K07wCO+OvWs8HJeJoNpE1PIl9XRiB+68Zx5M/jjrHjktL/6Hve0HihQJVcyIZd7Avjbo6m2BBeXW0eQt3fikdTyQok3wF0Q3KzSOaMW/uS0hIcoVGsUbRYYtRsIjN5D/mXOf2N8bX+weM3a6hx5BA6XLFR51IUokyVWOXHZbNx4wCZFxtY+4kVfCYNYN3xvF6xS/9QG/ukPPfwFigsS1axfAw==
+
+p_ssh::options:
+  ListenAddress:
+    value: "%{::ipaddress}"
+  Ciphers:
+    value: 
+      - "aes256-ctr"
+      - "aes192-ctr"
+      - "aes128-ctr"
+      - "chacha20-poly1305@openssh.com"
+  AllowTcpForwarding:
+    #value: "no"
+    value: "yes"
+  GatewayPorts:
+    value: "no"
+  X11Forwarding:
+    value: "no"
+  X11UseLocalhost:
+    value: "yes"
+  AllowAgentForwarding:
+    #value: "no"
+    value: "yes"
+  PermitTunnel:
+    value: "no"
+  AllowUsers:
+    value: 
+      - root
+  LogLevel:
+    value: VERBOSE
+  PasswordAuthentication:
+    value: "no"
+  PermitEmptyPasswords:
+    value: "no"
+  ChallengeResponseAuthentication:
+    value: "no"
+  RSAAuthentication:
+    value: "yes"
+  PubkeyAuthentication:
+    value: "yes"
+  PermitRootLogin:
+    value: without-password
+#  AuthorizedKeysFile:
+#    value: "/etc/keys/%u/authorized_keys"
+  RhostsRSAAuthentication:
+    value: "no"
+  HostbasedAuthentication:
+    value: "no"
+  IgnoreRhosts:
+    value: "yes"
+# Disconnect if idle for $ClientAliveInterval seconds
+  ClientAliveCountMax:
+    value: "0"
+  ClientAliveInterval:
+    value: "900"
+
+## Sysctl
+p_sysctl::options:
+  #"kernel.exec-shield":
+  #  value: 1
+  #  ensure: absent
+  "kernel.randomize_va_space":
+    value: 1
+  "net.ipv4.conf.all.rp_filter":
+    value: 1
+
+## MGMT hosts
+p_firewall::mgmthosts: 
+  - "0.0.0.0/1"
+  - "128.0.0.0/1"
+
+# Infrastructure
+dnsclient::search: "%{::domain}"
+dnsclient::domain: "%{::domain}"
+
+# Rsyslog enable ssl
+rsyslog::ssl: true
+
+# Apache default ssl
+apache::default_ssl_vhost: true
+
+# Postgres version (Does not work)
+#postgresql::globals::manage_package_repo: "true"
+#postgresql::globals::version: "9.4"

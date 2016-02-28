@@ -1,0 +1,5 @@
+dnsclient::nameservers:
+  - 172.31.16.12
+  - 8.8.8.8
+
+role: puppetmaster

@@ -1,0 +1,12 @@
+dnsclient::nameservers:
+  - 172.31.16.12
+  - 8.8.8.8
+
+role: maas
+
+network::interfaces_hash:
+  eth0:
+    ipaddress: 172.31.16.12
+    netmask: 255.255.255.0
+    gateway: 172.31.16.254
+
