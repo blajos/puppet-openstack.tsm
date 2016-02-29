@@ -41,14 +41,14 @@ maas-cluster-controller maas-cluster-controller/shared-secret   password        
     source => "puppet:///modules/p_maas/maas-http.conf"
   }
 
-  #file {"/etc/maas/preseeds/curtin_userdata":
-  #  ensure => present,
-  #  owner => "root",
-  #  group => "maas",
-  #  mode => "644",
-  #  source => "puppet:///modules/p_maas/curtin_userdata",
-  #  subscribe => Package["maas-region-controller-min"]
-  #}
+  file {"/etc/maas/preseeds/curtin_userdata":
+    ensure => present,
+    owner => "root",
+    group => "maas",
+    mode => "644",
+    source => "puppet:///modules/p_maas/curtin_userdata",
+    subscribe => Package["maas-region-controller-min"]
+  }
 
   file {"/etc/maas/maas_local_settings.py":
     ensure => present,
