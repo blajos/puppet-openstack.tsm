@@ -23,9 +23,9 @@ late_commands:
   driver_05_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "{{driver['package']}}"]
   driver_06_depmod: ["curtin", "in-target", "--", "depmod"]
   driver_07_update_initramfs: ["curtin", "in-target", "--", "update-initramfs", "-u"]
+{{endif}}
   puppet_01_install: "curtin in-target -- apt-get install -y puppet"
   puppet_02_enable: "curtin in-target -- puppet agent --enable"
-{{endif}}
 
 power_state:
   mode: reboot
