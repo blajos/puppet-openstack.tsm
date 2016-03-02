@@ -1,0 +1,5 @@
+p_ceph::mon::pools:
+  libvirt:
+    pg_num: 128
+    pgp_num: 128
+    size: 3

@@ -1,6 +1,7 @@
 class p_ceph::mon (
   $admin_key,
   $mon_key,
+  $pools
 ){
   include p_ceph
 
@@ -40,4 +41,5 @@ class p_ceph::mon (
   }
   Firewall<<| tag == "ceph-mon" |>>
   
+  create_resources(ceph::pool,$pools)
 }
