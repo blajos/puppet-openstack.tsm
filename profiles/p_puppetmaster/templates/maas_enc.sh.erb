@@ -6,6 +6,11 @@ MAAS=/usr/bin/maas
 $MAAS login local <%= @server %> <%= @token %> &>/dev/zero
 
 # Quick and dirty
-echo role: `$MAAS local nodes list|grep "hostname\|role-"|grep -B1 $nodename|grep role-|sed -e 's/^.*"role-\(.*\)"/\1/'`
+role=`$MAAS local nodes list|grep "hostname\|role-"|grep -B1 $nodename|grep role-|sed -e 's/^.*"role-\(.*\)"/\1/'`
+cat <<EOF
+parameters:
+  enc_role: $role
+EOF
+
 
 $MAAS logout local

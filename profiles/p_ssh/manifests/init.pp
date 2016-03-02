@@ -21,7 +21,7 @@ class p_ssh (
     host_aliases => [ "$hostname", "$ipaddress" ],
   }
 
-  Sshkey <<||>>
+  Sshkey <<| title != "ubuntu.$domain" |>>
 
 
   # Authorized_keys

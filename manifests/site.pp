@@ -1,6 +1,13 @@
-$role=hiera('role')
-$site=hiera('site')
+if $enc_role {
+  $role=$enc_role
+}
+else {
+  $role=hiera('role')
+}
+
 $master_password=hiera('master_password')
+
+$netname_to_interface=hiera('netname_to_interface')
 
 class { "roles::$role": }
 

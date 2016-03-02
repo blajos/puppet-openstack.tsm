@@ -3,3 +3,25 @@ dnsclient::options:
 
 dnsclient::nameservers:
   - 172.31.16.12
+
+p_ceph::fsid: "49ed62ff-cbe1-41fa-8710-6961c9513c2c"
+p_ceph::mon_initial_members: "os-control1-ceph"
+p_ceph::mon_host: "os-control1-ceph"
+p_ceph::public_netname: "ceph"
+p_ceph::cluster_netname: "ceph"
+
+p_ceph::osd::osd_disks:
+  "/dev/sdb":
+    journal: 
+
+ceph::public_network: 172.31.20.0/24
+ceph::cluster_network: 172.31.20.0/24
+
+netname_to_interface:
+  puppet: bond0
+  int: bond0_1055 #tenant data between nova-compute and neutron-gateway nodes
+  mgmt: bond0_1056 #mysql, rabbitmq, cross openstack-services
+  ceph: bond0_1057 #ceph cluster and public
+  ctrl: bond0_1058 #public openstack services
+  ext: bond0_1059 #public tenant data
+

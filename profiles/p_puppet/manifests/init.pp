@@ -1,12 +1,4 @@
 class p_puppet {
-  #Host<<| title=="puppet" |>>
-  Host<<||>>
-  @@host{"$fqdn":
-    ensure => present,
-    ip => $ipaddress,
-    host_aliases => $hostname
-  }
-
   package {"puppet":
     ensure => present,
   }~>

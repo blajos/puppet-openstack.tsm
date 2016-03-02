@@ -13,14 +13,14 @@ network::interfaces_hash:
     ipaddress: 172.31.17.1
     netmask: 255.255.255.0
   eth0.1056:
-    ipaddress: 172.31.19.1
-    netmask: 255.255.255.0
+    ipaddress: 172.31.18.1
+    netmask: 255.255.255.192
   eth0.1057:
-    ipaddress: 172.31.20.1
-    netmask: 255.255.255.0
+    ipaddress: 172.31.18.65
+    netmask: 255.255.255.224
   eth0.1058:
-    ipaddress: 172.31.21.1
-    netmask: 255.255.255.0
+    ipaddress: 172.31.18.97
+    netmask: 255.255.255.224
   eth0.1059:
-    ipaddress: 172.31.22.1
-    netmask: 255.255.255.0
+    ipaddress: 172.31.18.129
+    netmask: 255.255.255.240
