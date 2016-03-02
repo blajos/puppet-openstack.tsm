@@ -2,3 +2,4 @@
 puppetdb::globals::version: 2.3.8-1puppetlabs1
 puppetdb::postgres_version: "9.3"
 
+puppetdb::node_ttl: 2d

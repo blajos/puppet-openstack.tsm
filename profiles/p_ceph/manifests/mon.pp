@@ -4,7 +4,9 @@ class p_ceph::mon (
 ){
   include p_ceph
 
-  ceph::mon { "${::hostname}-$::p_ceph::public_netname":
+  $instancename="${::hostname}-$::p_ceph::public_netname"
+
+  ceph::mon { "$instancename":
     public_addr => getvar("ipaddress_${$::p_ceph::publicif}"),
     key => $mon_key,
   }
@@ -12,7 +14,7 @@ class p_ceph::mon (
   Ceph::Key {
     inject         => true,
     inject_as_id   => 'mon.',
-    inject_keyring => "/var/lib/ceph/mon/ceph-${::hostname}/keyring",
+    inject_keyring => "/var/lib/ceph/mon/ceph-${instancename}/keyring",
   }
 
   ceph::key { 'client.admin':
@@ -22,6 +24,11 @@ class p_ceph::mon (
     cap_mds => 'allow',
   }
 
+  ceph::key { "client.bootstrap-osd":
+    secret  => $::p_ceph::bootstrap_osd_key,
+    cap_mon => 'allow profile bootstrap-osd',
+  }
+  
   Ceph::Key <<||>>
 
   @@firewall { "100 allow p_ceph::mon from $fqdn":

@@ -1,5 +1,4 @@
 class p_ceph::osd (
-  $bootstrap_osd_key,
   $osd_disks
 ){
   include p_ceph
@@ -8,11 +7,7 @@ class p_ceph::osd (
 
   ceph::key {'client.bootstrap-osd':
     keyring_path => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
-    secret       => $bootstrap_osd_key,
-  }
-  @@ceph::key { "client.bootstrap-osd-$hostname":
-    secret  => $bootstrap_osd_key,
-    cap_mon => 'allow profile bootstrap-osd',
+    secret       => $::p_ceph::bootstrap_osd_key,
   }
   @@firewall { "100 allow p_ceph::osd from $fqdn":
     source => getvar("ipaddress_${$::p_ceph::publicif}"),

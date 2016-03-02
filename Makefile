@@ -1,6 +1,5 @@
-#NODES:=$(shell grep uvb- /etc/hosts|sed -e "s/.*\(uvb-[0-9a-zA-Z-]*\).*/\1/"|sort -u)
-NODES=localhost
-SSH=ssh -R8140:localhost:8140 -t
+NODES:=$(shell puppet cert list --all|cut -f2 -d\")
+SSH=ssh -t
 
 commit:
 	git add -A
@@ -18,7 +17,7 @@ test_all: $(NODES:=_test)
 install_all: $(NODES:=_install)
 
 %_test:
-	$(SSH) $(SUDO_USER)@$* sudo puppet agent --no-daemonize --server localhost --verbose --onetime --noop
+	$(SSH) $* sudo puppet agent --test --noop || true
 
 %_install:
-	$(SSH) $(SUDO_USER)@$* sudo puppet agent --no-daemonize --server localhost --verbose --onetime
+	$(SSH) $* sudo puppet agent --test || true

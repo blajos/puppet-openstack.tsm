@@ -12,6 +12,7 @@ class p_ceph::client (
     secret  => $key,
     cap_mon => 'allow r',
     cap_osd => "allow rw pool=$pool",
+    before => undef
   }
 
   @@firewall { "100 allow p_ceph::client from $fqdn":

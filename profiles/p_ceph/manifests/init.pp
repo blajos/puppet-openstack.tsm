@@ -2,6 +2,7 @@ class p_ceph (
   $fsid,
   $mon_initial_members,
   $mon_host,
+  $bootstrap_osd_key,
   $public_netname,
   $cluster_netname
 ) {

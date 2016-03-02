@@ -1,10 +1,12 @@
 class p_hosts {
   Host<<||>>
-  @@host{"$fqdn":
-    ensure => present,
-    ip => $ipaddress,
-    host_aliases => $hostname
-  }
+
+# This is handled by DNS
+#  @@host{"$fqdn":
+#    ensure => present,
+#    ip => $ipaddress,
+#    host_aliases => $hostname
+#  }
   
   $netnames=keys($::netname_to_interface)
   p_hosts::helper {$netnames:}
