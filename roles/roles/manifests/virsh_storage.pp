@@ -3,5 +3,5 @@ class roles::virsh_storage {
   include p_firewall::server
 
   include p_ceph::osd
-  #include p_virsh::cluster
+  include p_libvirt::cluster
 }

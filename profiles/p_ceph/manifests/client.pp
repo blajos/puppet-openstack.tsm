@@ -1,14 +1,13 @@
-class p_ceph::client (
-  $keyname,
+define p_ceph::client (
   $key,
   $pool
 ) {
   include p_ceph
 
-  ceph::key { "client.$keyname-$hostname":
+  ceph::key { "client.$name-$hostname":
     secret => $key
   }
-  @@ceph::key { "client.$keyname-$hostname":
+  @@ceph::key { "client.$name-$hostname":
     secret  => $key,
     cap_mon => 'allow r',
     cap_osd => "allow rw pool=$pool",
