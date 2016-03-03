@@ -8,7 +8,7 @@ class p_ceph::mon (
   $instancename="${::hostname}-$::p_ceph::public_netname"
 
   ceph::mon { "$instancename":
-    public_addr => getvar("ipaddress_${$::p_ceph::publicif}"),
+    public_addr => getvar("ipaddress_${::p_ceph::publicif}"),
     key => $mon_key,
   }
 
@@ -30,16 +30,17 @@ class p_ceph::mon (
     cap_mon => 'allow profile bootstrap-osd',
   }
   
-  Ceph::Key <<||>>
-
   @@firewall { "100 allow p_ceph::mon from $fqdn":
-    source => getvar("ipaddress_${$::p_ceph::publicif}"),
+    source => getvar("ipaddress_${::p_ceph::publicif}"),
     dport => 6789,
     proto  => "tcp",
     action => accept,
-    tag => "ceph-mon"
+    tag => ["cluster-$::p_ceph::clustername", "ceph-mon"]
   }
-  Firewall<<| tag == "ceph-mon" |>>
+  Firewall<<| tag == "ceph-mon" and tag == "cluster-$::p_ceph::clustername" |>>
   
   create_resources(ceph::pool,$pools)
+  
+  $ceph_clients=keys($::p_ceph::clients)
+  p_ceph::client{$ceph_clients:}
 }

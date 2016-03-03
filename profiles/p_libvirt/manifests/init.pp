@@ -1,7 +1,5 @@
 class p_libvirt (
   $cluster_name="libvirt",
-  $ceph_pool="libvirt",
-  $ceph_key,
   $vms={},
   $vm_autostart=true
 ) {
@@ -9,10 +7,7 @@ class p_libvirt (
 
   #FIXME remote access from other nodes
 
-  p_ceph::client {$cluster_name:
-    key => $ceph_key,
-    pool => $ceph_pool
-  }
+  p_ceph::client {$cluster_name:}
 
   create_resources(p_libvirt::vmxml,$vms,{autostart => $vm_autostart})
 }

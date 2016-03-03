@@ -4,7 +4,9 @@ class p_ceph (
   $mon_host,
   $bootstrap_osd_key,
   $public_netname,
-  $cluster_netname
+  $cluster_netname,
+  $clustername="ceph",
+  $clients={}
 ) {
   class { 'ceph::repo': }
   class { 'ceph':
