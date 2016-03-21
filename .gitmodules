@@ -64,3 +64,6 @@
 [submodule "modules/puppetserver_gem"]
 	path = modules/puppetserver_gem
 	url = https://github.com/puppetlabs/puppetlabs-puppetserver_gem
+[submodule "modules/vswitch"]
+	path = modules/vswitch
+	url = https://github.com/openstack/puppet-vswitch
