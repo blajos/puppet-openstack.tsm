@@ -21,16 +21,4 @@ class p_libvirt (
     command => "/usr/local/bin/create-ceph-secret.sh $cluster_name $::p_ceph::clients[$name]['key']",
   }
 
-  #file create xml
-  include vswitch::ovs
-
-  vs_bridge { 'br-ex':
-    ensure => present,
-  }
-
-  vs_port { 'bond0':
-    ensure => present,
-    bridge => 'br-ex',
-  }
-
 }

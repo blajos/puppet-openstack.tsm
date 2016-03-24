@@ -1,2 +1,18 @@
 #p_libvirt::vms:
 p_libvirt::cluster::cluster_netname: mgmt
+
+p_ssh::options:
+  ListenAddress:
+    value: "%{::ipaddress_vlan_default}"
+
+netname_to_interface:
+  puppet: vlan_default
+  int: vlan1055 #tenant data between nova-compute and neutron-gateway nodes
+  mgmt: vlan1056 #mysql, rabbitmq, cross openstack-services
+  ceph: vlan1057 #ceph cluster and public
+  ctrl: vlan1058 #public openstack services
+  ext: vlan1059 #public tenant data
+
+p_bond_to_ovs::spec_vlans:
+  1057:
+    mtu: 9000

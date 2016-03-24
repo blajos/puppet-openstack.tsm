@@ -1,0 +1,48 @@
+<% @bonding_interfaces.split(",").each do |bond_if| -%>
+<%   br_if = bond_if.gsub(/^bond/, "br") -%>
+<%   vlans = @interfaces.split(",").select{|interface| interface =~ /^#{bond_if}_/}.map{|interface| interface.gsub(/^#{bond_if}_/,"")} -%>
+
+auto <%= br_if %>
+allow-ovs <%= br_if %>
+iface <%= br_if %> inet manual
+  ovs_type OVSBridge
+  ovs_ports <%= bond_if %> <%= br_if %>_default <%= vlans.map{|vlan| br_if+"_"+vlan}.join(" ") %>
+  mtu 9000
+
+allow-<%= br_if %> <%= bond_if %>
+iface <%= bond_if %> inet manual
+  ovs_bridge <%= br_if %>
+  ovs_type OVSBond
+  ovs_bonds <%= scope["bonding_"+bond_if+"_slaves"].split(",").join(" ") %>
+  pre-up ( <%= scope["bonding_"+bond_if+"_slaves"].split(",").map{|slave| "ifconfig "+slave+" mtu 9000"}.join(" && ") %> )
+  ovs_options bond_mode=<%= scope["bonding_"+bond_if+"_mode"] %>
+  mtu 9000
+
+allow-<%= br_if %> <%= br_if %>_default
+iface <%= br_if %>_default inet static
+    ovs_type OVSIntPort
+    ovs_bridge <%= br_if %>
+    ovs_options vlan_mode=access
+    ovs_extra set interface ${IFACE} external-ids:iface-id=$(hostname -s)-${IFACE}-vif
+    gateway <%= @default_gateway %>
+    address <%= scope["ipaddress_"+bond_if] %>
+    netmask <%= scope["netmask_"+bond_if] %>
+    mtu 1500
+
+<%   vlans.each do |vlan| -%>
+allow-<%= br_if %> <%= br_if %>_<%= vlan %>
+iface <%= br_if %>_<%= vlan %> inet static
+    ovs_type OVSIntPort
+    ovs_bridge <%= br_if %>
+    ovs_options tag=<%= vlan %>
+    ovs_extra set interface ${IFACE} external-ids:iface-id=$(hostname -s)-${IFACE}-vif
+    address <%= scope["ipaddress_"+bond_if+"_"+vlan] %>
+    netmask <%= scope["netmask_"+bond_if+"_"+vlan] %>
+<%     if @spec_vlans[vlan] and @spec_vlans[vlan]["mtu"] -%>
+    mtu <%= @spec_vlans[vlan]["mtu"] -%>
+<%     else -%>
+    mtu 1500
+<%     end -%>
+
+<%   end -%>
+<% end -%>
