@@ -39,7 +39,7 @@ iface <%= br_if %>_<%= vlan %> inet static
     address <%= scope["ipaddress_"+bond_if+"_"+vlan] %>
     netmask <%= scope["netmask_"+bond_if+"_"+vlan] %>
 <%     if @spec_vlans[vlan] and @spec_vlans[vlan]["mtu"] -%>
-    mtu <%= @spec_vlans[vlan]["mtu"] -%>
+    mtu <%= @spec_vlans[vlan]["mtu"] %>
 <%     else -%>
     mtu 1500
 <%     end -%>
