@@ -4,6 +4,7 @@ dnsclient::options:
 dnsclient::nameservers:
   - 172.31.16.12
 
+p_ceph::debug: false
 p_ceph::fsid: "49ed62ff-cbe1-41fa-8710-6961c9513c2c"
 p_ceph::mon_initial_members: "os-control1-ceph"
 p_ceph::mon_host: "os-control1-ceph"
@@ -25,3 +26,5 @@ netname_to_interface:
   ctrl: bond0_1058 #public openstack services
   ext: bond0_1059 #public tenant data
 
+ntp::servers:
+  - 172.31.16.1

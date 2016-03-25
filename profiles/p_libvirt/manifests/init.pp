@@ -21,4 +21,7 @@ class p_libvirt (
     command => "/usr/local/bin/create-ceph-secret.sh $cluster_name ${::p_ceph::clients[$cluster_name]['key']}",
   }
 
+  file {"/etc/libvirt/vms":
+    ensure => directory
+  }
 }

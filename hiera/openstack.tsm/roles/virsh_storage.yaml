@@ -3,7 +3,7 @@ p_libvirt::cluster::cluster_netname: mgmt
 
 p_ssh::options:
   ListenAddress:
-    value: "%{::ipaddress_br0_default}"
+    value: "0.0.0.0"
 
 netname_to_interface:
   puppet: br0_default
@@ -15,4 +15,5 @@ netname_to_interface:
 
 p_bond_to_ovs::spec_vlans:
   "1057":
-    mtu: 9000
+    #mtu: 9000
+    mtu: 1500

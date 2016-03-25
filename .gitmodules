@@ -67,3 +67,6 @@
 [submodule "modules/vswitch"]
 	path = modules/vswitch
 	url = https://github.com/openstack/puppet-vswitch
+[submodule "modules/ntp"]
+	path = modules/ntp
+	url = https://github.com/puppetlabs/puppetlabs-ntp

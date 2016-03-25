@@ -9,4 +9,5 @@ class roles::common {
   include lvm
   include p_security::suid
   include apt
+  include ntp
 }
