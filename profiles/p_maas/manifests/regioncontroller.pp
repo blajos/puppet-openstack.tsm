@@ -157,4 +157,10 @@ maas_url: http://$regioncontroller_ip/MAAS
 
   Firewall <<| tag == "cluster-controller-registration" |>>
 
+  ensure_packages("maas-cli")
+  file {"/usr/local/bin/maas1.9_node_setup.py":
+    ensure => present,
+    mode => "0755",
+    source => "puppet:///modules/p_maas/maas1.9_node_setup.py"
+  }
 }

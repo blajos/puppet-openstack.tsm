@@ -3,9 +3,9 @@ class p_libvirt::cluster (
   $port=5405,
   $cluster_netname,
   $multicast_address='239.1.1.2',
-  $votequorum_expected_votes=2
+  $votequorum_expected_votes=2,
+  $rgs={}, #Resource groups
 ){
-  # FIXME
   class {"p_libvirt":
     cluster_name => $cluster_name
   }
@@ -20,6 +20,7 @@ class p_libvirt::cluster (
       multicast_address => $multicast_address,
       votequorum_expected_votes => $votequorum_expected_votes,
       port => $port,
+      debug => true,
     }
 
     corosync::service { 'pacemaker':
@@ -38,5 +39,7 @@ class p_libvirt::cluster (
       tag => ["p_libvirt::cluster","$cluster_name"],
     }
     Firewall<<| tag=="p_libvirt::cluster" and tag=="$cluster_name" |>>
+
+    create_resources(p_libvirt::cluster::rg,$rgs)
   }
 }

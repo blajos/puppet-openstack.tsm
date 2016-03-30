@@ -1,6 +1,3 @@
-#p_libvirt::vms:
-p_libvirt::cluster::cluster_netname: mgmt
-
 p_ssh::options:
   ListenAddress:
     value: "0.0.0.0"
@@ -17,3 +14,22 @@ p_bond_to_ovs::spec_vlans:
   "1057":
     #mtu: 9000
     mtu: 1500
+
+p_libvirt::cluster::cluster_netname: mgmt
+p_libvirt::cluster::rgs:
+  172.31.16.5:
+    vms:
+      virt1-control2:
+        deployed: "FALSE"
+        vcpu: 4
+        mem: 8
+        disks:
+          - 32
+  172.31.16.6:
+    vms:
+      virt2-db1:
+        deployed: "FALSE"
+        vcpu: 4
+        mem: 8
+        disks:
+          - 32

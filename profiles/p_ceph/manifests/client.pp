@@ -7,7 +7,7 @@ define p_ceph::client {
   ceph::key { "client.$name":
     secret  => $key,
     cap_mon => 'allow r',
-    cap_osd => "allow rw pool=$pool",
+    cap_osd => "allow class-read object_prefix rbd_children, allow rwx pool=$pool",
   }
 
   @@firewall { "100 allow p_ceph::client mon $name from $fqdn":

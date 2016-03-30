@@ -2,7 +2,7 @@ class p_libvirt (
   $cluster_name="libvirt",
   $vms={}
 ) {
-  ensure_packages("libvirt-bin")
+  ensure_packages(["libvirt-bin", "qemu-kvm", "qemu"])
 
   #FIXME remote access from other nodes
 
@@ -24,4 +24,16 @@ class p_libvirt (
   file {"/etc/libvirt/vms":
     ensure => directory
   }
+
+  file {"/usr/local/bin/create-vm.sh":
+    ensure => present,
+    mode => "0755",
+    source => "puppet:///modules/p_libvirt/create-vm.sh"
+  }
+  file {"/usr/local/bin/test-vm.sh":
+    ensure => link,
+    target => "create-vm.sh",
+  }
+
+  create_resources(p_libvirt::vm,$vms)
 }
