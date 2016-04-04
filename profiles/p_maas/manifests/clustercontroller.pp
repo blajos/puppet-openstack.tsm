@@ -97,4 +97,8 @@ class p_maas::clustercontroller (
     tag => "cluster-controller-registration"
   }
 
+  # Maas vs. ssh to cluster vip address?
+  cron {"remove maas known hosts":
+    command => "/bin/rm /var/lib/maas/.ssh/known_hosts"
+  }
 }

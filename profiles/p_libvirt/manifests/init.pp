@@ -1,8 +1,16 @@
 class p_libvirt (
   $cluster_name="libvirt",
+  $maas_pw,
   $vms={}
 ) {
-  ensure_packages(["libvirt-bin", "qemu-kvm", "qemu"])
+  ensure_packages(["libvirt-bin", "qemu-kvm", "qemu"],{
+    notify => Service["libvirt-bin"]
+  })
+
+  service{"libvirt-bin":
+    ensure => running,
+    enable => true,
+  }
 
   #FIXME remote access from other nodes
 
@@ -36,4 +44,18 @@ class p_libvirt (
   }
 
   create_resources(p_libvirt::vm,$vms)
+
+  user{"maas":
+    groups => "libvirtd",
+    password => pw_hash($maas_pw, 'SHA-512', hiera("master_password","test")),
+    shell => "/bin/sh"
+  }
+
+  file {"/etc/libvirt/hooks/qemu":
+    ensure => present,
+    mode => "0700",
+    owner => "root",
+    content => template("p_libvirt/qemu_ceph_hook.erb"),
+    notify => Service["libvirt-bin"]
+  }
 }

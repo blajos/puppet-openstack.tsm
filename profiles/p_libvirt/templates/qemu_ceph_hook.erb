@@ -1,0 +1,77 @@
+#!/bin/bash
+# wogri@wogri.com
+
+# this hook script creates a lock on a ceph rbd image when a VM is started. It also handles live migration smoothly with locks.
+# It also will complain and not start a VM when a rbd image is tried to be attached more than one time to a VM.
+
+RBD="rbd --id <%= @cluster_name %> -p <%= @cluster_name %>"
+domain=$1
+command=$2
+
+function lock {
+  rbd=$1
+  locktype=$2
+  echo locking $RBD image with command: rbd lock add $rbd $locktype --shared libvirt >&2
+  $RBD lock add $rbd $locktype --shared libvirt
+}
+
+function unlock {
+  rbd=$1
+  locktype=$2
+  client=$($RBD lock list $rbd | grep -v 'Lock tag:' | grep $locktype | awk '{ print $1 }')
+  echo unlocking rbd image with command: $RBD lock remove $rbd $locktype $client >&2
+  $RBD lock remove $rbd $locktype $client
+}
+
+function is_locked {
+  rbd=$1
+  locktype=$2
+  $RBD lock list $rbd | grep $locktype > /dev/null
+}
+
+
+# the domain xml comes from STDIN in any case
+# we need to use grep here, ase you can't call a virsh command within a virsh hook. sorry folks.
+for rbd in $(grep "protocol='rbd'" - | sed "s/^.*name='//" | sed "s/'\(\/\)\?>$//")
+do
+  if [ $command = 'migrate' ]
+  then
+    lock $rbd migrate
+  elif [ $command = 'prepare' ]
+  then
+    if is_locked $rbd migrate
+    then
+      # this means a live migration has been started, and we do not need to re-lock the VM. 
+      exit 0
+    fi
+    if is_locked $rbd libvirt
+    then
+      echo image $rbd is locked. will not start the VM. Type rbd lock list $rbd for more information. >&2
+      lock $rbd startup
+      exit 257
+    fi
+    lock $rbd libvirt
+  elif [ $command = 'started' ]
+  then
+    # let's remove the startup lock, so the release hook can properly unlock the rbd image.  
+    if is_locked $rbd startup
+    then
+      unlock $rbd startup
+    fi
+  elif [ $command = 'release' ]
+  then
+    if is_locked $rbd startup
+    then
+      echo RBD image $rbd seems to be locked, vm could not be started, so the image will stay locked. Type rbd lock list $rbd for more information. >&2
+      unlock $rbd startup
+    else
+      if is_locked $rbd migrate
+      then
+        # this means a live migration has been finished, and we want to remove the 'migrate' lock, but not the 'real' lock. 
+        unlock $rbd migrate
+      else
+        unlock $rbd libvirt
+      fi
+    fi
+  fi
+done

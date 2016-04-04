@@ -1,6 +1,12 @@
 p_ssh::options:
   ListenAddress:
     value: "0.0.0.0"
+  AllowUsers:
+    value:
+      - root
+      - maas
+  PasswordAuthentication:
+    value: "yes"
 
 netname_to_interface:
   puppet: br0_default

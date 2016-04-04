@@ -39,7 +39,7 @@ define p_libvirt::cluster::rg::vm (
     require => P_libvirt::Vm["$name"],
   } ~>
   cs_colocation { "${name}_to_${vip}":
-    primitives => ["vip_$vip", "vm_$name"],
+    primitives => ["vip_$vip", "ms_vm_$name"],
     score => '1000',
     require => Cs_primitive["vip_$vip"]
   }
