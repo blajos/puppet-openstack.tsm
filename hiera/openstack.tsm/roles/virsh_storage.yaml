@@ -26,7 +26,7 @@ p_libvirt::cluster::rgs:
   172.31.16.5:
     vms:
       virt1-control2:
-        deployed: "FALSE"
+        deployed: "TRUE"
         vcpu: 4
         mem: 8
         disks:
@@ -34,7 +34,7 @@ p_libvirt::cluster::rgs:
   172.31.16.6:
     vms:
       virt2-db1:
-        deployed: "FALSE"
+        deployed: "TRUE"
         vcpu: 4
         mem: 8
         disks:
