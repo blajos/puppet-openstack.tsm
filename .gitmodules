@@ -70,3 +70,9 @@
 [submodule "modules/ntp"]
 	path = modules/ntp
 	url = https://github.com/puppetlabs/puppetlabs-ntp
+[submodule "puppetdbquery"]
+	path = puppetdbquery
+	url = https://github.com/dalen/puppet-puppetdbquery/
+[submodule "modules/puppetdbquery"]
+	path = modules/puppetdbquery
+	url = https://github.com/dalen/puppet-puppetdbquery/
