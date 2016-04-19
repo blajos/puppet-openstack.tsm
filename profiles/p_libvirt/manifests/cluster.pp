@@ -18,7 +18,7 @@ class p_libvirt::cluster (
       authkey           => '/var/lib/puppet/ssl/certs/ca.pem',
       bind_address      => getvar("ipaddress_$clusterif"),
       #multicast_address => $multicast_address,
-      unicast_addresses => ["172.31.19.3","172.31.19.4"],
+      unicast_addresses => query_nodes('Class[p_libvirt::cluster]{cluster_name=libvirt}',"ipaddress_$clusterif"),
       votequorum_expected_votes => $votequorum_expected_votes,
       port => $port,
       debug => true,
